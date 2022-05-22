@@ -1,6 +1,7 @@
 package com.simplemobiletools.calculator.helpers
 
 import android.content.Context
+import android.util.Log
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.models.History
 import com.simplemobiletools.commons.extensions.showErrorToast
@@ -171,6 +172,8 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
         }
 
         if (lastKey != DIGIT && lastKey != DECIMAL) {
+            // prompt user to try again (Toast)
+            TODO()
             return
         }
 
@@ -200,6 +203,7 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
     }
 
     private fun calculateResult() {
+        Log.d("test", "output")
         if (lastOperation == ROOT && inputDisplayedFormula.startsWith("√")) {
             baseValue = 1.0
         }
@@ -260,6 +264,12 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
                 }
 
                 showNewResult(result.format())
+                // build a logic equation
+                // check the result above ^^^ if it is correct then we will send them back to TB,
+                // else we clear the fields -> open a Toast and ask them to try again until they get it right
+
+                TODO()
+
                 baseValue = result
                 val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
                 HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
