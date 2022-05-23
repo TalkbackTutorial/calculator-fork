@@ -173,7 +173,7 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
 
         if (lastKey != DIGIT && lastKey != DECIMAL) {
             // prompt user to try again (Toast)
-            TODO()
+            //TO DO was here
             return
         }
 
@@ -203,7 +203,6 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
     }
 
     private fun calculateResult() {
-        Log.d("test", "output")
         if (lastOperation == ROOT && inputDisplayedFormula.startsWith("√")) {
             baseValue = 1.0
         }
@@ -246,6 +245,7 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
                 } else {
                     // avoid Double rounding errors at expressions like 5250,74 + 14,98
                     if (sign == "+" || sign == "-") {
+
                         val first = BigDecimal.valueOf(baseValue)
                         val second = BigDecimal.valueOf(secondValue)
                         val bigDecimalResult = when (sign) {
@@ -268,13 +268,34 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
                 // check the result above ^^^ if it is correct then we will send them back to TB,
                 // else we clear the fields -> open a Toast and ask them to try again until they get it right
 
-                TODO()
+                //TO DO was here
 
-                baseValue = result
-                val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
-                HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
-                inputDisplayedFormula = result.format()
-                showNewFormula(newFormula)
+                val valueToCheck = inputDisplayedFormula.trimStart('-').replace(",", "")
+                val parts = valueToCheck.split(operationsRegex).filter { it != "" }
+                baseValue = Formatter.stringToDouble(parts.first())
+                if (inputDisplayedFormula.startsWith("-")) {
+                    baseValue *= -1
+                }
+
+                secondValue = parts.getOrNull(1)?.replace(",", "")?.toDouble() ?: secondValue
+
+                if (baseValue.equals(9.0) && secondValue.equals(5.0) && sign.equals("×") && result.equals(45.0)){
+                    context.toast("congrats that's correct")
+                    baseValue = result
+                    val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
+                    HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
+                    inputDisplayedFormula = result.format()
+                    showNewFormula(newFormula)
+                }
+                else{
+                    handleReset()
+                    resetValues()
+                    context.toast("Incorrect! Please try again.")
+                }
+
+
+
+
             } catch (e: Exception) {
                 context.toast(R.string.unknown_error_occurred)
             }
