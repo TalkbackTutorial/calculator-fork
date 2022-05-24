@@ -1,13 +1,17 @@
 package com.simplemobiletools.calculator.helpers
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.models.History
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.math.BigDecimal
+import java.util.logging.Handler
 
 class CalculatorImpl(calculator: Calculator, private val context: Context) {
     private var callback: Calculator? = calculator
@@ -280,21 +284,30 @@ class CalculatorImpl(calculator: Calculator, private val context: Context) {
                 secondValue = parts.getOrNull(1)?.replace(",", "")?.toDouble() ?: secondValue
 
                 if (baseValue.equals(9.0) && secondValue.equals(5.0) && sign.equals("×") && result.equals(45.0)){
-                    context.toast("congrats that's correct")
+//                    context.toast("You have provided the correct answer!")
+//                    context.toast("Sending you back to the talkback module")
                     baseValue = result
                     val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
                     HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
                     inputDisplayedFormula = result.format()
                     showNewFormula(newFormula)
+
+                    Log.d("test", "back to TB!")
+                    try{
+                        val intent = Intent()
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.component = ComponentName("com.github.talkbacktutorial", "com.github.talkbacktutorial.activities.modules.calculatorapp.CalculatorAppActivity")
+                        intent.putExtra("TBT_SC_ACTION", "SC_TASK_FINISH_CALCULATOR")
+                        context.startActivity(intent)
+                    }catch (e:java.lang.Exception){
+                        Log.d("test", e.message.toString())
+                    }
                 }
                 else{
                     handleReset()
                     resetValues()
                     context.toast("Incorrect! Please try again.")
                 }
-
-
-
 
             } catch (e: Exception) {
                 context.toast(R.string.unknown_error_occurred)
