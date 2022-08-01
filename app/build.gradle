@@ -10,14 +10,14 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.simplemobiletools.calculator"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 49
-        versionName "5.8.0"
+        targetSdkVersion 32
+        versionCode 53
+        versionName "5.9.1"
         setProperty("archivesBaseName", "calculator")
     }
 
@@ -49,6 +49,7 @@ android {
     productFlavors {
         core {}
         fdroid {}
+        prepaid {}
     }
 
     sourceSets {
@@ -62,11 +63,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:11bb9a6377'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:8ee6c0c17b'
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'net.objecthunter:exp4j:0.4.8'
 
-    kapt 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
+    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
 }

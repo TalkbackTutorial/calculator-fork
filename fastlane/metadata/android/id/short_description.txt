@@ -1,1 +1,1 @@
-Kalkulator dengan fungsi dasar dan widget yang bisa disesuaikan.
+Kalkulator ilmiah untuk penghitungan sederhana dengan antarmuka pengguna mulus

@@ -1,6 +1,29 @@
 Changelog
 ==========
 
+Version 5.9.1 *(2022-07-17)*
+----------------------------
+
+ * Added some translation and UX improvements
+
+Version 5.9.0 *(2022-07-03)*
+----------------------------
+
+ * Added landscape mode
+ * Added some translation, stability and UX improvements
+
+Version 5.8.2 *(2022-06-07)*
+----------------------------
+
+ * Allow toggling between a decimal dot and comma
+ * Added some translation improvements
+
+Version 5.8.1 *(2022-05-20)*
+----------------------------
+
+ * Added some widget related improvements, but require Simple Thank You for using them
+ * Added some stabiliy and translation improvements
+
 Version 5.8.0 *(2022-03-29)*
 ----------------------------
 

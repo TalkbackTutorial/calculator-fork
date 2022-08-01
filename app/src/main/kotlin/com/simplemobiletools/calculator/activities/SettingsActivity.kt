@@ -2,11 +2,14 @@ package com.simplemobiletools.calculator.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import com.simplemobiletools.calculator.R
+import com.simplemobiletools.calculator.extensions.calculatorDB
 import com.simplemobiletools.calculator.extensions.config
+import com.simplemobiletools.calculator.extensions.updateWidgets
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.IS_CUSTOMIZING_COLORS
+import com.simplemobiletools.commons.helpers.NavigationIcon
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 import kotlin.system.exitProcess
@@ -20,14 +23,16 @@ class SettingsActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
+        setupToolbar(settings_toolbar, NavigationIcon.Arrow)
 
         setupPurchaseThankYou()
         setupCustomizeColors()
         setupUseEnglish()
         setupVibrate()
         setupPreventPhoneFromSleeping()
+        setupUseCommaAsDecimalMark()
         setupCustomizeWidgetColors()
-        updateTextColors(settings_scrollview)
+        updateTextColors(settings_nested_scrollview)
 
         arrayOf(settings_color_customization_label, settings_general_settings_label).forEach {
             it.setTextColor(getProperPrimaryColor())
@@ -36,11 +41,6 @@ class SettingsActivity : SimpleActivity() {
         arrayOf(settings_color_customization_holder, settings_general_settings_holder).forEach {
             it.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        updateMenuItemColors(menu)
-        return super.onCreateOptionsMenu(menu)
     }
 
     private fun setupPurchaseThankYou() {
@@ -52,7 +52,7 @@ class SettingsActivity : SimpleActivity() {
         }
 
         settings_purchase_thank_you_holder.setOnClickListener {
-            handleCustomizeColorsClick()
+            launchPurchaseThankYouIntent()
         }
     }
 
@@ -91,6 +91,18 @@ class SettingsActivity : SimpleActivity() {
         settings_prevent_phone_from_sleeping_holder.setOnClickListener {
             settings_prevent_phone_from_sleeping.toggle()
             config.preventPhoneFromSleeping = settings_prevent_phone_from_sleeping.isChecked
+        }
+    }
+
+    private fun setupUseCommaAsDecimalMark() {
+        settings_use_comma_as_decimal_mark.isChecked = config.useCommaAsDecimalMark
+        settings_use_comma_as_decimal_mark_holder.setOnClickListener {
+            settings_use_comma_as_decimal_mark.toggle()
+            config.useCommaAsDecimalMark = settings_use_comma_as_decimal_mark.isChecked
+            updateWidgets()
+            ensureBackgroundThread {
+                applicationContext.calculatorDB.deleteHistory()
+            }
         }
     }
 

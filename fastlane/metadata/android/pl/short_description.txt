@@ -1,1 +1,0 @@
-Kalkulator z podstawowymi funkcjami oraz konfigurowalnym widżetem.

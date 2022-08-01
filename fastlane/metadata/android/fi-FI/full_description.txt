@@ -1,0 +1,19 @@
+Tämä tyylikäs, moderni laskin tarjoaa erinomaisen käyttökokemuksen, jota tulet rakastamaan. Voit kopioida tuloksen tai kaavan leikepöydälle painamalla sitä pitkään. Sovellus on yksinkertainen apuri nopeisiin laskutoimituksiin monilla perustoiminnoilla ml. kerto-, jako-, juuri- ja potenssilaskutoiminnot.
+
+Voit kytkeä värinän päälle varmistuaksesi painalluksistasi. Sovellus voi myös halutessasi estää puhelimen lepotilan, jotta käyttö olisi mahdollisimman mutkatonta. Kooltaan säädettävän pienoissovelluksen tekstin väriä voi mukauttaa, kuten myös taustavärin ja läpinäkyvyyden. 
+
+Paina tulosta tai kaavaa pienoissovelluksessa avataksesi sovelluksen. Sovelluksessa on material design- ja tumma teema oletuksena, jotka tarjoavat erinomaisen ja helpon käytön. Sovellus ei käytä internetyhteyttä, joten yksityiseesi, turvallisuutesi ja sovellusten vakaus on varmistettu. 
+
+Sovellus ei sisällä mainoksia eikä se pyydä tarpeettomia käyttöoikeuksia. Se on täysin vapaata lähdekoodia ja tarjoaa mukautettavat sovelluksen värit. 
+
+Luo katsaus koko Simple Tools-sovellusvalikoimaan täällä:
+https://www.simplemobiletools.com 
+
+Facebook:
+https://www.facebook.com/simplemobiletools
+
+Reddit:
+https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools

@@ -3,6 +3,7 @@ package com.simplemobiletools.calculator.activities
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,7 @@ import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.extensions.config
 import com.simplemobiletools.calculator.helpers.MyWidgetProvider
 import com.simplemobiletools.commons.dialogs.ColorPickerDialog
+import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.IS_CUSTOMIZING_COLORS
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +25,7 @@ class WidgetConfigureActivity : SimpleActivity() {
     private var mBgColor = 0
     private var mTextColor = 0
     private var mBgColorWithoutTransparency = 0
+    private var mFeatureLockedDialog: FeatureLockedDialog? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         useDynamicTheme = false
@@ -31,16 +34,37 @@ class WidgetConfigureActivity : SimpleActivity() {
         setContentView(R.layout.widget_config)
         initVariables()
 
-        val mIsCustomizingColors = intent.extras?.getBoolean(IS_CUSTOMIZING_COLORS) ?: false
+        val isCustomizingColors = intent.extras?.getBoolean(IS_CUSTOMIZING_COLORS) ?: false
         mWidgetId = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID) ?: AppWidgetManager.INVALID_APPWIDGET_ID
 
-        if (mWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID && !mIsCustomizingColors) {
+        if (mWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID && !isCustomizingColors) {
             finish()
         }
 
         config_save.setOnClickListener { saveConfig() }
         config_bg_color.setOnClickListener { pickBackgroundColor() }
         config_text_color.setOnClickListener { pickTextColor() }
+
+        val primaryColor = getProperPrimaryColor()
+        config_bg_seekbar.setColors(mTextColor, primaryColor, primaryColor)
+
+        if (!isCustomizingColors && !isOrWasThankYouInstalled()) {
+            mFeatureLockedDialog = FeatureLockedDialog(this) {
+                if (!isOrWasThankYouInstalled()) {
+                    finish()
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        window.decorView.setBackgroundColor(0)
+
+        if (mFeatureLockedDialog != null && isOrWasThankYouInstalled()) {
+            mFeatureLockedDialog?.dismissDialog()
+        }
+        setupToolbar(config_toolbar)
     }
 
     private fun initVariables() {
@@ -95,13 +119,12 @@ class WidgetConfigureActivity : SimpleActivity() {
     private fun updateBackgroundColor() {
         mBgColor = mBgColorWithoutTransparency.adjustAlpha(mBgAlpha)
         widget_background.applyColorFilter(mBgColor)
-        config_save.setBackgroundColor(mBgColor)
-        config_bg_color.setFillWithStroke(mBgColor, Color.BLACK)
+        config_bg_color.setFillWithStroke(mBgColor, mBgColor)
+        config_save.backgroundTintList = ColorStateList.valueOf(getProperPrimaryColor())
     }
 
     private fun updateTextColor() {
-        config_text_color.setFillWithStroke(mTextColor, Color.BLACK)
-        config_save.setTextColor(mTextColor)
+        config_text_color.setFillWithStroke(mTextColor, mTextColor)
 
         val viewIds = intArrayOf(
             R.id.btn_0, R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8,
@@ -110,6 +133,7 @@ class WidgetConfigureActivity : SimpleActivity() {
         )
         result.setTextColor(mTextColor)
         formula.setTextColor(mTextColor)
+        config_save.setTextColor(getProperPrimaryColor().getContrastColor())
 
         viewIds.forEach {
             (findViewById<Button>(it)).setTextColor(mTextColor)
