@@ -295,38 +295,98 @@ class CalculatorImpl(
 
                 secondValue = parts.getOrNull(1)?.replace(",", "")?.toDouble() ?: secondValue
 
-                if (baseValue.equals(9.0) && secondValue.equals(5.0) && sign.equals("×") && result.equals(45.0)) {
-//                    context.toast("You have provided the correct answer!")
-//                    context.toast("Sending you back to the talkback module")
-                    val newFormula = "${baseValue.format()}$sign${secondValue.format()}"
-                    HistoryHelper(context).insertOrUpdateHistoryEntry(
-                        History(id = null, formula = newFormula, result = result.format(), timestamp = System.currentTimeMillis())
-                    )
-                    showNewFormula(newFormula)
-
-                    inputDisplayedFormula = result.format()
-                    baseValue = result
-
-                    Log.d("test", "back to TB!")
-                    try{
-                        val intent = Intent()
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.component = ComponentName("com.github.talkbacktutorial", "com.github.talkbacktutorial.activities.modules.calculatorapp.CalculatorAppActivity")
-                        intent.putExtra("TBT_SC_ACTION", "SC_TASK_FINISH_CALCULATOR")
-                        context.startActivity(intent)
-                    }catch (e:java.lang.Exception){
-                        Log.d("test", e.message.toString())
-                    }
-                } else {
-                    handleReset()
+                if (sign.equals("+")){
+                    add(sign, result, expression)
+                }
+                else if(sign.equals("-")){
+                    substract(sign, result, expression)
+                }
+                else if(sign.equals("×")){
+                    multiply(sign, result, expression)
+                }
+                else if (sign.equals(("÷"))){
+                    divide(sign, result, expression)
+                }
+                else {
                     resetValues()
                     context.toast("Incorrect! Please try again.")
                 }
+
             } catch (e: Exception) {
                 context.toast(R.string.unknown_error_occurred)
             }
+
         }
     }
+
+    private fun add(sign : String,result : Double, expression : String){
+        if (baseValue.equals(6.0) && secondValue.equals(8.0) && sign.equals("+") && result.equals(14.0)){
+            context.toast("congrats that's correct")
+            baseValue = result
+            val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
+            HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
+            inputDisplayedFormula = result.format()
+            showNewFormula(newFormula)
+            resetValues()
+
+        }
+        else{
+            resetValues()
+            context.toast("Incorrect! Please try again.")
+        }
+    }
+
+    private fun substract(sign : String,result : Double, expression : String){
+        if (baseValue.equals(7.0) && secondValue.equals(2.0) && sign.equals("-") && result.equals(5.0)){
+            context.toast("congrats that's correct")
+            baseValue = result
+            val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
+            HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
+            inputDisplayedFormula = result.format()
+            showNewFormula(newFormula)
+            resetValues()
+
+        }
+        else{
+            resetValues()
+            context.toast("Incorrect! Please try again.")
+        }
+    }
+
+    private fun multiply(sign : String,result : Double, expression : String){
+        if (baseValue.equals(9.0) && secondValue.equals(5.0) && sign.equals("×") && result.equals(45.0)){
+            context.toast("congrats that's correct")
+            baseValue = result
+            val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
+            HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
+            inputDisplayedFormula = result.format()
+            showNewFormula(newFormula)
+            resetValues()
+
+        }
+        else{
+            resetValues()
+            context.toast("Incorrect! Please try again.")
+        }
+    }
+
+    private fun divide(sign : String,result : Double, expression : String){
+        if (baseValue.equals(9.0) && secondValue.equals(3.0) && sign.equals("÷") && result.equals(3.0)){
+            context.toast("congrats that is correct")
+            baseValue = result
+            val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
+            HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
+            inputDisplayedFormula = result.format()
+            showNewFormula(newFormula)
+            resetValues()
+
+        }
+        else{
+            resetValues()
+            context.toast("Incorrect! Please try again.")
+        }
+    }
+
 
     private fun calculatePercentage(baseValue: Double, secondValue: Double, sign: String): Double {
         return when (sign) {

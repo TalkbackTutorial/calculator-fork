@@ -47,11 +47,8 @@ class MainActivity : SimpleActivity(), Calculator {
         btn_root.setOnClickOperation(ROOT)
         btn_minus.setOnLongClickListener { calc.turnToNegative() }
 
-        btn_clear.setVibratingOnClickListener { calc.handleClear() }
-        btn_clear.setOnLongClickListener {
-            calc.handleReset()
-            true
-        }
+        btn_clear.setOnClickListener{calc.handleReset(); true}
+        btn_clear.setOnLongClickListener{calc.handleReset(); true}
 
         getButtonIds().forEach {
             it.setVibratingOnClickListener { view ->
