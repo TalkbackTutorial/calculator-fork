@@ -363,6 +363,7 @@ class CalculatorImpl(
             showNewFormula(newFormula)
             resetValues()
 
+            returnToTBT()
         }
         else{
             resetValues()
@@ -384,6 +385,21 @@ class CalculatorImpl(
         else{
             resetValues()
             context.toast("Incorrect! Please try again.")
+        }
+    }
+
+    /**
+     * Returns to Teach Me Talkback app.
+     */
+    private fun returnToTBT() {
+        try {
+            val intent = Intent()
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.component = ComponentName("com.github.talkbacktutorial", "com.github.talkbacktutorial.activities.modules.calculatorapp.CalculatorAppActivity")
+            intent.putExtra("TBT_SC_ACTION", "SC_TASK_FINISH_CALCULATOR")
+            context.startActivity(intent)
+        } catch (e:java.lang.Exception) {
+            Log.d("test", e.message.toString())
         }
     }
 
