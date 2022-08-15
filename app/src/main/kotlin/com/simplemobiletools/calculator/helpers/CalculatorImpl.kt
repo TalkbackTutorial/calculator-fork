@@ -336,7 +336,6 @@ class CalculatorImpl(
 
     private fun substract(sign : String,result : Double, expression : String){
         if (baseValue.equals(7.0) && secondValue.equals(2.0) && sign.equals("-") && result.equals(5.0)){
-            context.toast("congrats that's correct")
             baseValue = result
             val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
             HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
@@ -353,7 +352,6 @@ class CalculatorImpl(
 
     private fun multiply(sign : String,result : Double, expression : String){
         if (baseValue.equals(9.0) && secondValue.equals(5.0) && sign.equals("×") && result.equals(45.0)){
-            context.toast("congrats that's correct")
             baseValue = result
             val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
             HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
@@ -371,7 +369,6 @@ class CalculatorImpl(
 
     private fun divide(sign : String,result : Double, expression : String){
         if (baseValue.equals(9.0) && secondValue.equals(3.0) && sign.equals("÷") && result.equals(3.0)){
-            context.toast("congrats that is correct")
             baseValue = result
             val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
             HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
