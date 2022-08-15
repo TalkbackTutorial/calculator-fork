@@ -315,13 +315,11 @@ class CalculatorImpl(
             } catch (e: Exception) {
                 context.toast(R.string.unknown_error_occurred)
             }
-
         }
     }
 
     private fun add(sign : String,result : Double, expression : String){
         if (baseValue.equals(6.0) && secondValue.equals(8.0) && sign.equals("+") && result.equals(14.0)){
-            context.toast("congrats that's correct")
             baseValue = result
             val newFormula = expression.replace("sqrt", "√").replace("*", "×").replace("/", "÷")
             HistoryHelper(context).insertOrUpdateHistoryEntry(History(null, newFormula, result.format(), System.currentTimeMillis()))
